@@ -15,7 +15,7 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6">
-          <span class="glyphicon glyphicon-home"></span> <b>Branch</b> : {{ branch }}
+          <span class="glyphicon glyphicon-home"></span> <b>Branch</b> : {{ branch.name }}
         </div>
         <div class="col-sm-6">
           <span class="glyphicon glyphicon-ok"></span> <b>Year</b> : {{ year }}
@@ -43,7 +43,7 @@
     <div class="panel-body" style="font-size: 120%">
 
       {% for skill in skills.all %}
-        <span class="label label-success">{{ skill }}</span>
+        <span class="label {% cycle 'label-success' 'label-warning' 'label-info' 'label-danger' 'label-primary' 'label-default' %}">{{ skill }}</span>
       {% endfor %}
     </div>
   </div>

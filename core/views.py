@@ -6,8 +6,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 
-from .models import Profile
+from .models import Profile, Year, Branch, Skill
 
 # Create your views here.
 def index(request):
@@ -26,11 +27,9 @@ def user_login(request):
     if request.method == "POST":
         # Login
         if "submit-login-form" in request.POST:
-            print(request.POST)
             username = request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
-            print(user)
             if user is not None:
 
                 login(request, user)
@@ -96,7 +95,6 @@ def myaccount(request):
     year = user.profile.year
     branch = user.profile.branch
     skills = user.profile.skills
-    print(user.profile.skills.all())
     contact_number = user.profile.contact_number
     facebook_url = user.profile.facebook_url
     linkedin_url = user.profile.linkedin_url
@@ -127,3 +125,40 @@ def user_profile(request, username):
         return redirect('myaccount')
     profile = user.profile
     return render(request, "user.html", {'profile':profile})
+
+
+def list_user(request):
+    # used for form filtering
+    years = Year.objects.all()
+    branches = Branch.objects.all()
+    skills = Skill.objects.all()
+
+    year = int(request.GET.get('year', -1))
+    branch = int(request.GET.get('branch', -1))
+    skill = request.GET.getlist('skill')
+
+    profiles = Profile.objects.all()
+    if len(skill) > 0:
+        profiles = profiles.filter(skills__in = skill)
+
+    if year != -1:
+        profiles = profiles.filter(year=year)
+    if branch != -1:
+        profiles = profiles.filter(branch_id=branch)
+
+    skill_int = list(map(int, skill))
+    profiles = profiles.annotate(skill_count = Count('skills')).order_by('-skill_count')
+    return render(
+        request,
+        "list_user.html",
+        {
+            'profiles': profiles,
+            'years': years,
+            'branches': branches,
+            'skills': skills,
+            'prev_year': year,
+            'prev_branch': branch,
+            'prev_skill': skill_int,
+
+        }
+    )

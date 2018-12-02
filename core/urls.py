@@ -19,10 +19,11 @@ from django.urls import reverse
 from . import views
 
 urlpatterns = [
-    path('', views.index, name="home"),
+    path('', views.list_user, name="home"),
     path('login/', views.user_login, name="login"),
     path('logout/', views.user_logout, name="logout"),
     path('myaccount/', views.myaccount, name="myaccount"),
     path('myaccount/edit/', views.ProfileUpdate.as_view(), name="profile-update"),
-    path('user/<str:username>/', views.user_profile, name="user-profile")
+    path('user/<str:username>/', views.user_profile, name="user-profile"),
+    path('list/', views.list_user, name="list-user"),
 ]

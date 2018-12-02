@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3" style="margin-top: 95px;">
+        <div class="well">
+          <form>
+            <!-- Year Filter -->
+            <select name="year" class="form-control">
+                <option value="-1">All Years</option>
+                {% for year in years %}
+                  <option value="{{year.id}}"
+                  {% if prev_year == year.id %} selected {% endif %}
+
+                  >
+                    {{year.name}}
+                  </option>
+                {% endfor %}
+            </select>
+            <br>
+            <!-- Branch Filter -->
+            <select name="branch" class="form-control">
+                <option value="-1">All Branches</option>
+                {% for branch in branches %}
+                  <option value="{{branch.id}}"
+                   {% if prev_branch == branch.id %} selected {% endif %}
+                  >
+                    {{branch.short_name}}
+                  </option>
+                {% endfor %}
+            </select>
+            <br>
+            <!-- Skill Filter -->
+            <select name="skill" class="form-control" multiple="mutliple" size="10">
+                {% for skill in skills %}
+                  <option value="{{skill.id}}"
+                   {% if skill.id in prev_skill %} selected {% endif %}
+                  >
+                    {{skill.name}}
+                  </option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="text-center">
+              <input type="submit" class="btn btn-primary" value="Filter">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <h2>Talented People Around You</h2>
+        <hr>
+        {% for profile in profiles %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h4><a href="/user/{{ profile.user.username }}/">{{ profile.name }}</a></h4>
+              <div class="row">
+                <div class="col-sm-3">
+                  <span class="glyphicon glyphicon-home"></span> <b>Branch</b> : {{ profile.branch }}                
+                </div>
+                <div class="col-sm-3">
+                  <span class="glyphicon glyphicon-ok"></span> <b>Year</b> : {{ profile.year }}
+                </div>
+                <div class="col-sm-6">
+                   <span class="glyphicon glyphicon-flag"></span> <b>Skills</b> :
+                  {% for skill in profile.skills.all|slice:":5" %} {{ skill }}, {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p> No People with such skills found :(</p>
+
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

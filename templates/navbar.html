@@ -10,13 +10,14 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class=""><a href="#">Home</a></li>
-        <li><a href="{% url 'profile-update' %}">Account</a></li>
+        <li class=""><a href="/list/">All Talents</a></li>
+        <li><a href="{% url 'myaccount' %}">My Profile</a></li>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Welcome {{ user.username | title}}<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Welcome {{ user.profile.name | title}}<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="/myaccount/">My Account</a></li>
               <!-- <li><a href="#">Settings</a></li> -->
