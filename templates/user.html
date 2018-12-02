@@ -3,10 +3,10 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6">
-      <h3>{{ name }}</h3>
+      <h3>{{ profile.name }}</h3>
     </div>
     <div class="col-sm-6 text-right" style="padding-top: 20px;">
-      <a href="/myaccount/edit/" class="btn btn-warning text-right">Update Profile</a>
+      <!-- <a href="/myaccount/edit/" class="btn btn-warning text-right">Update Profile</a> -->
     </div>
   </div>
   <hr>
@@ -15,24 +15,24 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-6">
-          <span class="glyphicon glyphicon-home"></span> <b>Branch</b> : {{ branch }}
+          <span class="glyphicon glyphicon-home"></span> <b>Branch</b> : {{ profile.branch }}
         </div>
         <div class="col-sm-6">
-          <span class="glyphicon glyphicon-ok"></span> <b>Year</b> : {{ year }}
+          <span class="glyphicon glyphicon-ok"></span> <b>Year</b> : {{ profile.year }}
         </div>
         <br>
         <br>
         <div class="col-sm-6">
           <span class="glyphicon glyphicon-earphone"></span> 
-          <b>Contact No.</b> : {{ contact_number }}
+          <b>Contact No.</b> : {{ profile.contact_number }}
         </div>
 
         <div class="col-sm-6">
           <span class="glyphicon glyphicon-link"></span> 
           <b>Social Links</b> : 
-          <a href="{{ facebook_url }}"><i class="fa fa-facebook"></i></a> &nbsp;&nbsp;
-          <a href="{{ linkedin_url }}"><i class="fa fa-linkedin"></i></a> &nbsp;&nbsp;
-          <a href="{{ github_url }}"><i class="fa fa-github"></i></a> &nbsp;&nbsp;
+          <a href="{{ profile.facebook_url }}"><i class="fa fa-facebook"></i></a> &nbsp;&nbsp;
+          <a href="{{ profile.linkedin_url }}"><i class="fa fa-linkedin"></i></a> &nbsp;&nbsp;
+          <a href="{{ profile.github_url }}"><i class="fa fa-github"></i></a> &nbsp;&nbsp;
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="panel-heading">Skills</div>
     <div class="panel-body" style="font-size: 120%">
 
-      {% for skill in skills.all %}
+      {% for skill in profile.skills.all %}
         <span class="label label-success">{{ skill }}</span>
       {% endfor %}
     </div>

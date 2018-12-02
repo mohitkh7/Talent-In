@@ -42,9 +42,9 @@ class Profile(models.Model):
     skills = models.ManyToManyField('Skill')
 
     contact_number = models.PositiveIntegerField(null=True)
-    facebook_url = models.URLField(null=True)
-    linkedin_url = models.URLField(null=True)
-    github_url = models.URLField(null=True)
+    facebook_url = models.URLField(null=True, blank=True, default="http://www.facebook.com")
+    linkedin_url = models.URLField(null=True, blank=True, default="http://www.linkedin.com")
+    github_url = models.URLField(null=True, blank=True, default="http://www.github.com")
 
     def __str__(self):
         return self.name

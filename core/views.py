@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404
 
 from .models import Profile
 
@@ -67,7 +68,16 @@ def user_logout(request):
 @method_decorator(login_required, name="dispatch")
 class ProfileUpdate(UpdateView):
     model=Profile
-    fields = ['name','year', 'branch', 'skill', 'contact_number',]
+    fields = [
+        'name',
+        'year',
+        'branch',
+        'skills',
+        'contact_number',
+        'facebook_url',
+        'linkedin_url',
+        'github_url',
+    ]
     template_name="profile_update.html"
 
     def get_object(self):
@@ -84,9 +94,36 @@ def myaccount(request):
     user = request.user
     name = user.profile.name
     year = user.profile.year
-    print(year)
+    branch = user.profile.branch
+    skills = user.profile.skills
+    print(user.profile.skills.all())
+    contact_number = user.profile.contact_number
+    facebook_url = user.profile.facebook_url
+    linkedin_url = user.profile.linkedin_url
+    github_url = user.profile.github_url
+    # check if urls are correct
+    if facebook_url is None:
+        facebook_url = '#'
+    if linkedin_url is None:
+        linkedin_url = '#'
+    if github_url is None:
+        github_url = '#'
+
     ret_dict = {
         'name': name,
         'year': year,
+        'branch': branch,
+        'skills': skills,
+        'contact_number': contact_number,
+        'facebook_url': facebook_url,
+        'linkedin_url': linkedin_url,
+        'github_url': github_url,
     }
     return render(request, "myaccount.html", ret_dict)
+
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    if user == request.user:
+        return redirect('myaccount')
+    profile = user.profile
+    return render(request, "user.html", {'profile':profile})
