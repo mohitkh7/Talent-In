@@ -8,3 +8,6 @@ class Year(models.Model):
 class Branch(models.Model):
     name = models.CharField(max_length=100, unique=True)
     short_name = models.CharField(max_length=5, unique=True)
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100, unique=True)
