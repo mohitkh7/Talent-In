@@ -13,6 +13,10 @@ from .models import Profile, Year, Branch, Skill
 # Create your views here.
 def index(request):
     # return HttpResponse("Om Gang Ganpataye Namah")
+    most_skilled = Profile.objects.annotate(skill_count = Count('skills')).order_by('-skill_count')
+    ret_dict = {
+        'most_skilled': most_skilled
+    }
     return render(request,'base.html')
 
 def user_login(request):
