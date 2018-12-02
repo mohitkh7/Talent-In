@@ -1,0 +1,5 @@
+__pycache__/
+migrations/
+serachIn/wsgi.py
+searchIn/settings.py
+db.sqlite3
